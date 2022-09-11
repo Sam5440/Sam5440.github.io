@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>萝卜密码加密系统</title>
+</head>
+<!-- TODO 从url获得public_key  like xxx.com?key=xxxxxx-->
+
+<!--引入jsencrypt.js-->
+<script src="https://cdn.bootcss.com/jsencrypt/3.0.0-beta.1/jsencrypt.js"></script>
+<button id="encrypt" style="font-size: 150px;background-color:#817d7d;">点我加密密码</button>
+<br><br><br>
+<!-- 输入框 200px 200px -->
+<textarea type="text" id="text" placeholder="请输入你的qq密码" style="font-size:80px;
+    width: auto;  
+    height: 1500px;  
+    word-wrap:break-word;  
+    word-break:break-all; 
+    overflow: hidden;
+    border-radius:2px;
+    outline:none;
+    border-top-style: groove;
+    border-right-style: groove;
+    border-bottom-style: groove;
+    border-left-style: groove;
+    border:1px solid #ff0404;"></textarea>
+<script type="text/javascript">
+    //公钥
+    var PUBLIC_KEY = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCsVuv5GHoiyScnofgJ28cJPNsw9iuqgnEdAkXiCHciPrF0ZthT2acwe3qRT63TklzO89EkY6EgEmUBbj4av9juZrwTIiyjS1y8kmnXBsRw+W0FPNoCf7FmPEE/vX2hlUVo9DX+cit6t8fvNGiR4bj3Jz7KupnjSa9MB2hLVgMg8QIDAQAB';
+    //使用公钥加密
+    var encrypt = new JSEncrypt();
+    //encrypt.setPrivateKey('-----BEGIN RSA PRIVATE KEY-----'+PRIVATE_KEY+'-----END RSA PRIVATE KEY-----');
+    encrypt.setPublicKey('-----BEGIN PUBLIC KEY-----' + PUBLIC_KEY + '-----END PUBLIC KEY-----');
+    document.getElementById("encrypt").onclick = function () {
+        //获得text输入框的值
+        var str = document.getElementById("text");
+        //如果str大于50或小于5
+        if (str.value.length > 100 || str.value.length < 5) {
+            alert("密码长度不能超过100位或小于5位");
+            str.value = ""
+        } else {
+            //加密
+            var encrypted = encrypt.encrypt(str.value);
+            //将加密后的值赋给text
+            str.value = encrypted;
+            var oInput = document.createElement('input');
+            oInput.value = encrypted;
+            document.body.appendChild(oInput);
+            oInput.select(); // 选择对象
+            document.execCommand("Copy"); // 执行浏览器复制命令
+            oInput.className = 'oInput';
+            oInput.style.display = 'none';
+            alert("已复制好，可贴粘。如果没有复制成功手动复制下面文本即可");
+        }
+        //var encrypted = encrypt.encrypt(JSON.stringify(str));
+        //输出加密后的密文
+        //console.log(encrypted);
+
+
+        //替换输入框数据
+        //str.value = encrypted;
+
+        //自动复制到剪贴板
+    }
+
+
+</script>
+
+</html>
