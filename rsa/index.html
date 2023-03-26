@@ -35,6 +35,8 @@
     document.getElementById("encrypt").onclick = function () {
         //获得text输入框的值
         var str = document.getElementById("text");
+        // 在str后面加当前时间戳
+        str.value = str.value + "#timestamp#" + new Date().getTime();
         //如果str大于50或小于5
         if (str.value.length > 100 || str.value.length < 5) {
             alert("密码长度不能超过100位或小于5位");
